@@ -1,14 +1,28 @@
 import java.util.*;
+import java.awt.*;
+import javax.swing.*;
 
-class Main {
+public class Main extends JFrame {
 	public static void main(String[] args) {
 		System.out.println("Hello world!");
 		System.out.println("We will testing drones out today!");
-		System.out.println("The map will be 100 units in size.");
+		System.out.println("The map will be 95 units in size.");
 
 		Scanner scan = new Scanner(System.in);
-		//JFrame frame = new JFrame("FrameDemo");
-		Random random = new Random();
+		JFrame frame = new JFrame("Map");
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		//JLabel label = new JLabel("JFrame Example");
+		JTextArea text = new JTextArea("JTextArea Example");
+		JButton button = new JButton();
+
+		button.setText("Button");
+		panel.add(text);
+		frame.add(panel);
+		frame.setSize(200, 300);
+		frame.setLocationRelativeTo(null);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 
 		char mapSize = 95 + 2;
 		char[][] map = new char[mapSize][mapSize];
@@ -17,43 +31,37 @@ class Main {
 
 		makeMap(map, mapSize);
 
-		makeObstacles(map, mapSize);
+		populateMap(map, mapSize);
 
-		// Place people in someplace
+		printMap(map, mapSize);
+		text.append(returnMap(map, mapSize));
+	}
 
-		map[mapSize / 2][mapSize / 2] = 'P';
+	// Obstacle population
+	public static void populateMap(char[][] map, int mapSize) {
+		Random random = new Random();
+
+		for (int i = 1; i < mapSize - 1; i++) {
+			for (int j = 1; j < mapSize - 1; j++) {
+				int chance = random.nextInt(101);
+
+				if (chance < 25) {
+					map[i][j] = '|';
+				}
+			}
+		}
 
 		// Drone insertion
 
 		map[0][mapSize / 2] = 'D';
 
-		char current = 'D';
-		char next = ' ';
-		while (next != 'P')
-		{
-			next = 
-		}
+		// Place people in someplace
 
-		printMap(map, mpaSize);
+		map[mapSize / 2][mapSize / 2] = 'P';
 	}
 
-	// Obstacle population
-	public void makeObstacles(char[][] map, int mapSize)
-	{
-		for (int i = 1; i < mapSize - 1; i++) {
-			for (int j = 1; j < mapSize - 1; j++) {
-				int chance = random.nextInt(101);
-
-				if (chance < 25)
-				{
-					map[i][j] = '|';
-				}
-			}
-		}
-	}
-
-	public void makeMap(char[][] map)
-	{
+	// Map creation
+	public static void makeMap(char[][] map, int mapSize) {
 		for (int i = 0; i < mapSize; i++) {
 			map[i][0] = '#';
 		}
@@ -76,14 +84,41 @@ class Main {
 			}
 		}
 	}
+
+	// Searching algorithm
+	public static void searchMap(char[][] map, int mapSize) {
+		int i = 0;
+		int j = mapSize / 2;
 		
-	public void printMap(char[][] map, int mapSize)
-	{
+		char current = 'D';
+		char next = ' ';
+		while (next != 'P') {
+			// map[i][j];
+			break;
+		}
+	}
+
+	// Map printing
+	public static void printMap(char[][] map, int mapSize) {
 		for (int i = 0; i < mapSize; i++) {
 			for (int j = 0; j < mapSize; j++) {
 				System.out.print(map[i][j]);
 			}
 			System.out.println();
 		}
+	}
+
+	// Returns map in string
+	public static String returnMap(char[][] map, int mapSize) {
+		String mapText = "";
+		
+		for (int i = 0; i < mapSize; i++) {
+			for (int j = 0; j < mapSize; j++) {
+				mapText += map[i][j];
+			}
+			mapText += "\n";
+		}
+
+		return mapText;
 	}
 }
